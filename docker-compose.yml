@@ -1,0 +1,47 @@
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: y_smart_mongodb
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: password
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - nest_network
+
+  mongo-express:
+    image: mongo-express
+    container_name: y_smart_mongo_express
+    ports:
+      - "8081:8081"
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: admin
+      ME_CONFIG_MONGODB_ADMINPASSWORD: password
+      ME_CONFIG_MONGODB_URL: mongodb://admin:password@mongodb:27017/
+    networks:
+      - nest_network
+
+  mousquito:
+    image: eclipse-mosquitto:latest
+    container_name: mosquitto_broker
+    restart: always
+    ports:
+      - "1883:1883"  # Port MQTT
+      - "9001:9001"  # Port WebSockets MQTT
+    entrypoint: >
+      sh -c "echo 'listener 1883' > /mosquitto/config/mosquitto.conf &&
+             echo 'allow_anonymous true' >> /mosquitto/config/mosquitto.conf &&
+             echo 'listener 9001' >> /mosquitto/config/mosquitto.conf &&
+             echo 'protocol websockets' >> /mosquitto/config/mosquitto.conf &&
+             echo 'log_dest stdout' >> /mosquitto/config/mosquitto.conf &&
+             mosquitto -c /mosquitto/config/mosquitto.conf"
+
+networks:
+  nest_network:
+    driver: bridge
+
+volumes:
+  mongodb_data:
