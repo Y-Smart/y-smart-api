@@ -73,7 +73,7 @@ export class DevicesController {
             state,
         });
 
-        this._mqttService.publish(req.user.userId, deviceId, state);
+        this._mqttService.publish(deviceId, state);
     }
 
     @Delete(':deviceId')

@@ -24,6 +24,6 @@ export class ClickService {
             .where('userId')
             .equals(userId);
 
-        this._mqttService.publish(userId, deviceId, state);
+        this._mqttService.publish(deviceId, state);
     }
 }

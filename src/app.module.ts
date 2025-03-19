@@ -6,6 +6,7 @@ import { AuthModule } from '@modules/auth/auth.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
 import { Module } from '@nestjs/common';
+import { TextModule } from '@modules/text/text.module';
 
 @Module({
     imports: [
@@ -19,6 +20,7 @@ import { Module } from '@nestjs/common';
         AuthModule,
         DevicesModule,
         CommandsModule,
+        TextModule,
     ],
     controllers: [],
     providers: [

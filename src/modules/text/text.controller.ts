@@ -9,7 +9,7 @@ export class TextController {
     @Post()
     async createCommand(
         @Req() req: UserRequest,
-        @Body() command: string,
+        @Body('command') command: string,
     ): Promise<string> {
         return await this._textService.createCommand(req.user.userId, command);
     }

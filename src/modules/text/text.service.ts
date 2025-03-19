@@ -26,9 +26,11 @@ export class TextService {
 
         const TurnOnLight = tool(
             async ({ location, userId }) => {
+                console.log('location', location);
+                console.log('userId', userId);
                 const device = await this._deviceService.findDeviceByLocation(
                     userId,
-                    'lampe',
+                    'lumière',
                     location,
                 );
 
@@ -43,7 +45,7 @@ export class TextService {
                         state: 'on',
                     },
                 );
-                this._mqttService.publish(userId, device._id.toString(), 'on');
+                this._mqttService.publish(device._id.toString(), 'on');
 
                 console.log(
                     `Lumière allumée dans ${location} pour le device ${device._id.toString()}`,
@@ -64,7 +66,7 @@ export class TextService {
             async ({ location, userId }) => {
                 const device = await this._deviceService.findDeviceByLocation(
                     userId,
-                    'lampe',
+                    'lumière',
                     location,
                 );
 
@@ -79,7 +81,7 @@ export class TextService {
                         state: 'off',
                     },
                 );
-                this._mqttService.publish(userId, device._id.toString(), 'off');
+                this._mqttService.publish(device._id.toString(), 'off');
 
                 console.log(
                     `Lumière éteinte dans ${location} pour le device ${device._id.toString()}`,
@@ -109,6 +111,10 @@ export class TextService {
             {
                 role: 'user',
                 content: command,
+            },
+            {
+                role: 'system',
+                content: `Ceci est le userId : ${userId}, mais pour les request utiliser le userId de la request sans le text avant et après`,
             },
             {
                 role: 'system',

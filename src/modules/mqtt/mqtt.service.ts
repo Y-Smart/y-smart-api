@@ -18,7 +18,7 @@ export class MqttService {
         });
     }
 
-    publish(userId: string, topic: string, state: string): void {
-        this._client.emit(`devices/${userId}/${topic}`, state);
+    publish(deviceId: string, state: string): void {
+        this._client.emit(deviceId, state);
     }
 }

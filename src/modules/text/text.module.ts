@@ -5,6 +5,9 @@ import { TextService } from '@modules/text/text.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
 import { Module } from '@nestjs/common';
+import { DevicesService } from '@modules/devices/devices.service';
+import { MqttService } from '@modules/mqtt/mqtt.service';
+import { Command, CommandSchema } from '@schemas/command.schema';
 
 @Module({
     imports: [
@@ -14,9 +17,13 @@ import { Module } from '@nestjs/common';
                 name: Device.name,
                 schema: DeviceSchema,
             },
+            {
+                name: Command.name,
+                schema: CommandSchema,
+            },
         ]),
     ],
     controllers: [TextController],
-    providers: [TextService, CommandsService],
+    providers: [TextService, CommandsService, DevicesService, MqttService],
 })
-export class DevicesModule {}
+export class TextModule {}
